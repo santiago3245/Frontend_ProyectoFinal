@@ -10,7 +10,7 @@ interface Empresa {
 
 interface Inventario {
   id_inventario: number;
-  id_empresa: number;
+  id_empresa: Empresa;
   fecha_actualizacion: Date;
 }
 
@@ -28,13 +28,11 @@ const InventarioList = ({ onEdit }: { onEdit: (inventario: Inventario) => void }
   const fetchEmpresas = async () => {
     const data = await getEmpresas();
     setEmpresas(data);
-    console.log("Empresas:", data); // Mostrar las empresas para verificar
   };
 
   const fetchInventarios = async () => {
     const data = await getInventarios();
     setInventarios(data);
-    console.log("Inventarios:", data); // Mostrar los inventarios para verificar
   };
 
   const handleDeleteClick = (inventario: Inventario) => {
@@ -68,35 +66,26 @@ const InventarioList = ({ onEdit }: { onEdit: (inventario: Inventario) => void }
             </TableRow>
           </TableHead>
           <TableBody>
-            {inventarios.map((inventario) => {
-              console.log("Inventario:", inventario); // Verifica el contenido de cada inventario
-              // Encuentra el nombre de la empresa correspondiente al id_empresa
-              const empresa = empresas.find((empresa) => empresa.id_empresa === inventario.id_empresa);
-              return (
-                <TableRow key={inventario.id_inventario}>
-                  <TableCell>{inventario.id_inventario}</TableCell>
-                  <TableCell>
-                    {empresa
-                      ? empresa.nombre
-                      : `Empresa no encontrada (ID: ${inventario.id_empresa})`}
-                  </TableCell>
-                  <TableCell>{new Date(inventario.fecha_actualizacion).toLocaleDateString()}</TableCell>
-                  <TableCell>
-                    <Button variant="contained" color="primary" onClick={() => onEdit(inventario)}>
-                      Editar
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={() => handleDeleteClick(inventario)}
-                      sx={{ marginLeft: 1 }}
-                    >
-                      Eliminar
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+            {inventarios.map((inventario) => (
+              <TableRow key={inventario.id_inventario}>
+                <TableCell>{inventario.id_inventario}</TableCell>
+                <TableCell>{inventario.id_empresa.nombre}</TableCell>
+                <TableCell>{new Date(inventario.fecha_actualizacion).toLocaleDateString()}</TableCell>
+                <TableCell>
+                  <Button variant="contained" color="primary" onClick={() => onEdit(inventario)}>
+                    Editar
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => handleDeleteClick(inventario)}
+                    sx={{ marginLeft: 1 }}
+                  >
+                    Eliminar
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

@@ -8,13 +8,13 @@ interface Producto {
   codigo_barras: string;
   nombre: string;
   descripcion: string;
-  id_categoria: string;
+  id_categoria: { nombre: string };
   precio_compra: number;
   precio_venta: number;
   stock_minimo: number;
   stock_maximo: number;
-  id_empresa: string;
-  id_proveedor: string;
+  id_empresa: { nombre: string };
+  id_proveedor: { nombre: string };
   fecha_creacion: string;
   ultima_actualizacion: string;
 }
@@ -80,15 +80,15 @@ const ProductoList = ({ onEdit }: { onEdit: (producto: Producto) => void }) => {
                 <TableCell>{producto.codigo_barras}</TableCell>
                 <TableCell>{producto.nombre}</TableCell>
                 <TableCell>{producto.descripcion}</TableCell>
-                <TableCell>{producto.id_categoria}</TableCell>
+                <TableCell>{producto.id_categoria.nombre}</TableCell>
                 <TableCell>{producto.precio_compra}</TableCell>
                 <TableCell>{producto.precio_venta}</TableCell>
                 <TableCell>{producto.stock_minimo}</TableCell>
                 <TableCell>{producto.stock_maximo}</TableCell>
-                <TableCell>{producto.id_empresa}</TableCell>
-                <TableCell>{producto.id_proveedor}</TableCell>
-                <TableCell>{producto.fecha_creacion}</TableCell>
-                <TableCell>{producto.ultima_actualizacion}</TableCell>
+                <TableCell>{producto.id_empresa.nombre}</TableCell>
+                <TableCell>{producto.id_proveedor.nombre}</TableCell>
+                <TableCell>{new Date(producto.fecha_creacion).toLocaleDateString()}</TableCell>
+                <TableCell>{new Date(producto.ultima_actualizacion).toLocaleDateString()}</TableCell>
                 <TableCell>
                   <Button variant="contained" color="primary" onClick={() => onEdit(producto)}>
                     Editar

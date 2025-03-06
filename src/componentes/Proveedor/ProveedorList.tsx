@@ -11,6 +11,7 @@ interface Proveedor {
   email: string;
   direccion: string;
   fecha_creacion: string;
+  fecha_actualizacion?: string;
 }
 
 const ProveedorList = ({ onEdit }: { onEdit: (proveedor: Proveedor) => void }) => {
@@ -53,6 +54,7 @@ const ProveedorList = ({ onEdit }: { onEdit: (proveedor: Proveedor) => void }) =
               <TableCell>Email</TableCell>
               <TableCell>Dirección</TableCell>
               <TableCell>Fecha de Creación</TableCell>
+              <TableCell>Fecha de Actualización</TableCell>
               <TableCell>Acciones</TableCell>
             </TableRow>
           </TableHead>
@@ -65,7 +67,8 @@ const ProveedorList = ({ onEdit }: { onEdit: (proveedor: Proveedor) => void }) =
                 <TableCell>{proveedor.telefono}</TableCell>
                 <TableCell>{proveedor.email}</TableCell>
                 <TableCell>{proveedor.direccion}</TableCell>
-                <TableCell>{proveedor.fecha_creacion}</TableCell>
+                <TableCell>{new Date(proveedor.fecha_creacion).toLocaleDateString()}</TableCell>
+                <TableCell>{proveedor.fecha_actualizacion ? new Date(proveedor.fecha_actualizacion).toLocaleDateString() : 'N/A'}</TableCell>
                 <TableCell>
                   <Button variant="contained" color="primary" onClick={() => onEdit(proveedor)}>
                     Editar

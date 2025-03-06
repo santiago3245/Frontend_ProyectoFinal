@@ -19,7 +19,7 @@ interface Empresa {
 const PedidoForm = ({ pedidoEdit, onSave }: { pedidoEdit: Pedido | null; onSave: () => void }) => {
   const [pedido, setPedido] = useState<Pedido>({
     id_empresa: 0,
-    fecha_solicitud: "",
+    fecha_solicitud: new Date().toISOString().split('T')[0], // Fecha actual
     fecha_entrega: "",
     estado: "",
   });
@@ -43,6 +43,11 @@ const PedidoForm = ({ pedidoEdit, onSave }: { pedidoEdit: Pedido | null; onSave:
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const now = new Date().toISOString().split('T')[0];
+    if (new Date(pedido.fecha_entrega) < new Date(now)) {
+      alert("La fecha de entrega debe ser mayor o igual a la fecha actual.");
+      return;
+    }
     if (pedido.id_pedido) {
       await updatePedido(pedido.id_pedido, pedido);
     } else {
@@ -51,10 +56,11 @@ const PedidoForm = ({ pedidoEdit, onSave }: { pedidoEdit: Pedido | null; onSave:
     onSave(); // Actualizar lista
     setPedido({
       id_empresa: 0,
-      fecha_solicitud: "",
+      fecha_solicitud: new Date().toISOString().split('T')[0], // Fecha actual
       fecha_entrega: "",
       estado: "",
     }); // Resetear formulario
+    window.location.reload();
   };
 
   return (
@@ -90,6 +96,7 @@ const PedidoForm = ({ pedidoEdit, onSave }: { pedidoEdit: Pedido | null; onSave:
             onChange={handleChange}
             margin="normal"
             required
+            disabled // Deshabilitado para que no se pueda cambiar
           />
         </Box>
         <Box mb={2}>

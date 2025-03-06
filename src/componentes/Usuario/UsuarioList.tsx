@@ -12,7 +12,7 @@ interface Usuario {
   fecha_creacion: Date;
   ultima_conexion: Date;
   password_hash: string;
-  id_empresa: number;
+  id_empresa: { nombre: string }; // Modificado para incluir el nombre de la empresa
 }
 
 const UsuarioList = ({ onEdit }: { onEdit: (usuario: Usuario) => void }) => {
@@ -57,6 +57,7 @@ const UsuarioList = ({ onEdit }: { onEdit: (usuario: Usuario) => void }) => {
               <TableCell>Email</TableCell>
               <TableCell>Teléfono</TableCell>
               <TableCell>Estado</TableCell>
+              <TableCell>Empresa</TableCell> {/* Nueva columna para la empresa */}
               <TableCell>Acciones</TableCell>
             </TableRow>
           </TableHead>
@@ -67,6 +68,7 @@ const UsuarioList = ({ onEdit }: { onEdit: (usuario: Usuario) => void }) => {
                 <TableCell>{usuario.email}</TableCell>
                 <TableCell>{usuario.telefono}</TableCell>
                 <TableCell>{usuario.estado}</TableCell>
+                <TableCell>{usuario.id_empresa.nombre}</TableCell> {/* Mostrar el nombre de la empresa */}
                 <TableCell>
                   <Button variant="contained" color="primary" onClick={() => onEdit(usuario)}>
                     Editar

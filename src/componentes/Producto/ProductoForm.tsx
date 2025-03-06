@@ -10,13 +10,13 @@ interface Producto {
   codigo_barras: string;
   nombre: string;
   descripcion: string;
-  id_categoria: string;
+  id_categoria: number;
   precio_compra: number;
   precio_venta: number;
   stock_minimo: number;
   stock_maximo: number;
-  id_empresa: string;
-  id_proveedor: string;
+  id_empresa: number;
+  id_proveedor: number;
   fecha_creacion?: string;
   ultima_actualizacion?: string;
 }
@@ -41,13 +41,13 @@ const ProductoForm = ({ productoEdit, onSave }: { productoEdit: Producto | null;
     codigo_barras: "",
     nombre: "",
     descripcion: "",
-    id_categoria: "",
+    id_categoria: 0,
     precio_compra: 0,
     precio_venta: 0,
     stock_minimo: 0,
     stock_maximo: 0,
-    id_empresa: "",
-    id_proveedor: "",
+    id_empresa: 0,
+    id_proveedor: 0,
     fecha_creacion: "",
     ultima_actualizacion: "",
   });
@@ -104,6 +104,7 @@ const ProductoForm = ({ productoEdit, onSave }: { productoEdit: Producto | null;
     }
   
     onSave();
+    window.location.reload();
   };
 
   return (

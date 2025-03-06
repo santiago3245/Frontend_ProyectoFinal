@@ -12,12 +12,12 @@ export const getReporteById = async (id: number) => {
   return response.data;
 };
 
-export const createReporte = async (reporte: { nombre: string; descripcion: string; fecha_creacion: Date }) => {
+export const createReporte = async (reporte: { id_empresa: { id_empresa: number }; tipo: string; archivo_pdf: string; id_usuario: { id_usuario: number }; fecha_generacion: string }) => {
   const response = await axios.post(API_URL, reporte);
   return response.data;
 };
 
-export const updateReporte = async (id: number, reporte: { nombre: string; descripcion: string; fecha_creacion: Date }) => {
+export const updateReporte = async (id: number, reporte: { id_empresa: { id_empresa: number }; tipo: string; archivo_pdf: string; id_usuario: { id_usuario: number }; fecha_generacion: string }) => {
   const response = await axios.put(`${API_URL}/${id}`, reporte);
   return response.data;
 };

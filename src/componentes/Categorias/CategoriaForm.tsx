@@ -1,4 +1,3 @@
-// CategoriaForm.tsx
 import { useState, useEffect } from "react";
 import { createCategoria, updateCategoria } from "./api";
 import { TextField, Button, Paper, Typography, Box } from "@mui/material";
@@ -7,11 +6,12 @@ interface Categoria {
   id_categoria?: number;
   nombre: string;
   descripcion: string;
-  fecha_creacion: string;
+  fecha_creacion?: string;
+  fecha_actualizacion?: string;
 }
 
 const CategoriaForm = ({ categoriaEdit, onSave }: { categoriaEdit: Categoria | null; onSave: () => void }) => {
-  const [categoria, setCategoria] = useState<Categoria>({ nombre: "", descripcion: "", fecha_creacion: "" });
+  const [categoria, setCategoria] = useState<Categoria>({ nombre: "", descripcion: "" });
 
   useEffect(() => {
     if (categoriaEdit) setCategoria(categoriaEdit);
@@ -29,7 +29,8 @@ const CategoriaForm = ({ categoriaEdit, onSave }: { categoriaEdit: Categoria | n
       await createCategoria(categoria);
     }
     onSave();
-    setCategoria({ nombre: "", descripcion: "", fecha_creacion: "" });
+    setCategoria({ nombre: "", descripcion: "" });
+    window.location.reload(); 
   };
 
   return (
@@ -43,9 +44,6 @@ const CategoriaForm = ({ categoriaEdit, onSave }: { categoriaEdit: Categoria | n
         </Box>
         <Box mb={2}>
           <TextField fullWidth label="Descripción" name="descripcion" value={categoria.descripcion} onChange={handleChange} margin="normal" required />
-        </Box>
-        <Box mb={2}>
-          <TextField fullWidth label="Fecha de Creación" name="fecha_creacion" type="date" value={categoria.fecha_creacion} onChange={handleChange} margin="normal" required />
         </Box>
         <Button type="submit" variant="contained" color="primary" fullWidth>
           Guardar

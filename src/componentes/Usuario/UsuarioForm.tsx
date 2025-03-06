@@ -67,6 +67,7 @@ const UsuarioForm = ({ usuarioEdit, onSave }: { usuarioEdit: Usuario | null; onS
       password_hash: "",
       id_empresa: 0,
     }); // Resetear formulario
+    window.location.reload();
   };
 
   return (

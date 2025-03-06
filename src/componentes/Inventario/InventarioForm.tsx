@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getEmpresas, createInventario, updateInventario } from "./api";
-import { TextField, Button, Paper, Typography, Box, Select, MenuItem, InputLabel, FormControl, SelectChangeEvent } from "@mui/material";
+import { Button, Paper, Typography, Box, Select, MenuItem, InputLabel, FormControl, SelectChangeEvent } from "@mui/material";
 
 interface Empresa {
   id_empresa: number;
@@ -43,6 +43,7 @@ const InventarioForm = ({ inventarioEdit, onSave }: { inventarioEdit: Inventario
     }
     onSave();
     setInventario({ id_empresa: 0, fecha_actualizacion: new Date() });
+    window.location.reload();
   };
 
   return (
@@ -67,18 +68,6 @@ const InventarioForm = ({ inventarioEdit, onSave }: { inventarioEdit: Inventario
               ))}
             </Select>
           </FormControl>
-        </Box>
-        <Box mb={2}>
-          <TextField
-            fullWidth
-            type="date"
-            label="Fecha de Actualización"
-            name="fecha_actualizacion"
-            InputLabelProps={{ shrink: true }}
-            value={inventario.fecha_actualizacion.toISOString().split("T")[0]}
-            onChange={(e) => setInventario({ ...inventario, fecha_actualizacion: new Date(e.target.value) })}
-            required
-          />
         </Box>
         <Button type="submit" variant="contained" color="primary" fullWidth>
           Guardar

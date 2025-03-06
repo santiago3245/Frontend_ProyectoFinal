@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 
 interface Pedido {
   id_pedido: number;
-  id_empresa: number;
+  id_empresa: { nombre: string };
   fecha_solicitud: string;
   fecha_entrega: string;
   estado: string;
@@ -38,6 +38,11 @@ const PedidoList = ({ onEdit }: { onEdit: (pedido: Pedido) => void }) => {
     setOpenDialog(false);
   };
 
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setSelectedPedido(null);
+  };
+
   return (
     <>
       <TableContainer component={Paper}>
@@ -56,9 +61,9 @@ const PedidoList = ({ onEdit }: { onEdit: (pedido: Pedido) => void }) => {
             {pedidos.map((pedido) => (
               <TableRow key={pedido.id_pedido}>
                 <TableCell>{pedido.id_pedido}</TableCell>
-                <TableCell>{pedido.id_empresa}</TableCell>
-                <TableCell>{pedido.fecha_solicitud}</TableCell>
-                <TableCell>{pedido.fecha_entrega}</TableCell>
+                <TableCell>{pedido.id_empresa.nombre}</TableCell>
+                <TableCell>{new Date(pedido.fecha_solicitud).toLocaleDateString()}</TableCell>
+                <TableCell>{new Date(pedido.fecha_entrega).toLocaleDateString()}</TableCell>
                 <TableCell>{pedido.estado}</TableCell>
                 <TableCell>
                   <Button variant="contained" color="primary" onClick={() => onEdit(pedido)}>
@@ -74,13 +79,13 @@ const PedidoList = ({ onEdit }: { onEdit: (pedido: Pedido) => void }) => {
         </Table>
       </TableContainer>
 
-      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>Confirmación de Eliminación</DialogTitle>
         <DialogContent>
           <Typography>¿Estás seguro de que deseas eliminar este pedido?</Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpenDialog(false)} color="primary">
+          <Button onClick={handleCloseDialog} color="primary">
             Cancelar
           </Button>
           <Button onClick={handleDelete} color="secondary">

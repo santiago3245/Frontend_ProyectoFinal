@@ -9,11 +9,12 @@ interface Proveedor {
   telefono: string;
   email: string;
   direccion: string;
-  fecha_creacion: string;
+  fecha_creacion?: string;
+  fecha_actualizacion?: string;
 }
 
 const ProveedorForm = ({ proveedorEdit, onSave }: { proveedorEdit: Proveedor | null; onSave: () => void }) => {
-  const [proveedor, setProveedor] = useState<Proveedor>({ nombre: "", contacto: "", telefono: "", email: "", direccion: "", fecha_creacion: "" });
+  const [proveedor, setProveedor] = useState<Proveedor>({ nombre: "", contacto: "", telefono: "", email: "", direccion: "" });
 
   useEffect(() => {
     if (proveedorEdit) setProveedor(proveedorEdit);
@@ -25,14 +26,14 @@ const ProveedorForm = ({ proveedorEdit, onSave }: { proveedorEdit: Proveedor | n
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const proveedorToSave = { ...proveedor, fecha_creacion: new Date(proveedor.fecha_creacion) };
     if (proveedor.id_proveedor) {
-      await updateProveedor(proveedor.id_proveedor, proveedorToSave);
+      await updateProveedor(proveedor.id_proveedor, proveedor);
     } else {
-      await createProveedor(proveedorToSave);
+      await createProveedor(proveedor);
     }
     onSave();
-    setProveedor({ nombre: "", contacto: "", telefono: "", email: "", direccion: "", fecha_creacion: "" });
+    setProveedor({ nombre: "", contacto: "", telefono: "", email: "", direccion: "" });
+    window.location.reload();
   };
 
   return (
@@ -55,9 +56,6 @@ const ProveedorForm = ({ proveedorEdit, onSave }: { proveedorEdit: Proveedor | n
         </Box>
         <Box mb={2}>
           <TextField fullWidth label="Dirección" name="direccion" value={proveedor.direccion} onChange={handleChange} margin="normal" required />
-        </Box>
-        <Box mb={2}>
-          <TextField fullWidth label="Fecha de Creación" name="fecha_creacion" type="date" value={proveedor.fecha_creacion} onChange={handleChange} margin="normal" required />
         </Box>
         <Button type="submit" variant="contained" color="primary" fullWidth>
           Guardar
